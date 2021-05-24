@@ -8,8 +8,8 @@ import requests
 import random
 
 api = Blueprint('api', __name__)
-with open("api/words.txt", "r") as file:
-    words = file.read().split()
+with open("api/text.txt", "r") as file:
+    texts = file.read().split("\n")[:-1]
 
 
 @api.route('auth/sign-up', methods=['POST'])
@@ -70,8 +70,7 @@ def refresh():
     return jsonify(access_token=access_token)
 
 
-@api.route("/random-words/<int:num>")
-@jwt_required()
+@api.route("/random-words")
 @cross_origin()
-def random_words(num):
-    return jsonify(random.choices(words, k=num))
+def random_words():
+    return jsonify(random.choice(texts))
